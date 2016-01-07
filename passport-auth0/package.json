@@ -1,0 +1,32 @@
+{
+  "name": "passport-auth0",
+  "version": "0.5.0",
+  "description": "Auth0 platform authentication strategy for Passport.js",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/auth0/passport-auth0"
+  },
+  "author": "",
+  "license": "BSD",
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^7.1.0"
+  },
+  "dependencies": {
+    "passport-oauth": "^1.0.0",
+    "request": "^2.61.0",
+    "xtend": "^4.0.0"
+  },
+  "readme": "This is the auth0 authentication strategy for Passport.js.\n\n## Instalation\n\n\tnpm install passport-auth0\n\n## Configuration\n\nTake your credentials from the [settings](https://app.auth0.com/#/settings) section in the dashboard and initialize the strategy as follows:\n\n~~~js\nvar Auth0Strategy = require('passport-auth0'),\n    passport = require('passport');\n\nvar strategy = new Auth0Strategy({\n   domain:       'your-domain.auth0.com',\n   clientID:     'your-client-id',\n   clientSecret: 'your-client-secret',\n   callbackURL:  '/callback'\n  },\n  function(accessToken, refreshToken, extraParams, profile, done) {\n    // accessToken is the token to call Auth0 API (not needed in the most cases)\n    // extraParams.id_token has the JSON Web Token\n    // profile has all the information from the user\n    return done(null, profile);\n  }\n);\n\npassport.use(strategy);\n~~~\n\n## Usage\n\n~~~js\napp.get('/callback', \n  passport.authenticate('auth0', { failureRedirect: '/login' }), \n  function(req, res) {\n    if (!req.user) {\n      throw new Error('user null');\n    }\n    res.redirect(\"/\");\n  }\n);\n\napp.get('/login', \n  passport.authenticate('auth0', {}), function (req, res) {\n  res.redirect(\"/\");\n});\n~~~\n\nThis way when you go to ```/login``` you will get redirect to auth0, to a page where you can select the identity provider.\n\nIf you want to force to force an identity provider you can use:\n\n~~~javascript\napp.get('/login/google', \n  passport.authenticate('auth0', {connection: 'google-oauth2'}), function (req, res) {\n  res.redirect(\"/\");\n});\n~~~\n\n\n\n## API access \n\nIf you want to get a list of connections or users from auth0, use the [auth0 module](https://github.com/auth0/node-auth0).\n\n\n## Complete example\n\nA complete example of using this library [here](http://github.com/auth0/passport-auth0).\n\n\n## Documentation\n\nFor more information about [auth0](http://auth0.com) contact our [documentation page](http://docs.auth0.com/).\n\n## Issue Reporting\n\nIf you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.\n\n## License\n\nThis client library is MIT licensed.\n",
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/auth0/passport-auth0/issues"
+  },
+  "homepage": "https://github.com/auth0/passport-auth0",
+  "_id": "passport-auth0@0.5.0",
+  "_from": "passport-auth0@"
+}

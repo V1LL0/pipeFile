@@ -1,0 +1,85 @@
+doctype html
+html(ng-app='buddyTransfer')
+  title My transfers
+  head
+    meta(name='viewport', content='initial-scale=1')
+    link(rel='stylesheet', href='https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css')
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+  body(layout='row', ng-controller='AppCtrl', data-key="#{jsKey}")
+    div(layout='column', md-component-id='left')
+      md-toolbar.md-tall.md-hue-2
+        span(flex='')
+        .md-toolbar-tools-bottom.inset(layout='column', layout-align='start center')
+          user-avatar(ng-hide='user.picture')
+          img.avatar(ng-src="{{user.picture}}", ng-show='user.picture')
+          span
+          div {{user.name}}
+      md-list
+        md-input-container
+          label Search friend
+          input(ng-model="search", type="text")
+        .clip-sidebar
+          md-item-content(layout='row', layout-align='center center')
+              p Sorry, no ready yet for friends sharing
+          md-list-item.draggable(ng-repeat='friend in friends | filter:search', ng-model="friends")
+            img.md-avatar(ng-src="{{friend.picture}}", ng-show='friend.picture')
+            .md-list-item-text
+              h5 {{friend.name}}
+    .relative(layout='column', layout-fill='', role='main')
+      md-toolbar.md-tall
+        .md-toolbar-tools.md-dashboard-title
+          h1
+            ng-md-icon(icon='{{logo}}', size="48", options='{"duration": 375, "rotation": "none"}')
+            |  Ephimeral file transfer service
+          span(flex="")
+          <iframe src="http://nodeknockout.com/iframe/nodemarval" frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>
+          md-button(href="/logout?returnTo=http://nodemarval.2015.nodeknockout.com/") Logout
+      md-content#dropzone(ng-model="interface", flex='', md-scroll-y='', data-droplet)
+        ui-view(layout='row', layout-wrap, ng-show="interface.getFiles(interface.FILE_TYPES.VALID).length")
+          md-item(ng-repeat="model in interface.getFiles(interface.FILE_TYPES.VALID)")
+            md-card(ng-model="model", jqyoui-droppable="{multiple:true}", flex="100")
+              md-card-content
+                md-item-content(layout="row")
+                  .md-tile-left.inset(hide-sm='')
+                    droplet-preview(ng-model="model" ng-show="model.isImage()")
+                    img(ng-model="model" ng-show="!model.isImage()" src='./img/file_icon.png' class="droplet-preview ng-isolate-scope ng-valid ng-touched" tabindex="0" aria-hidden="false" aria-invalid="false")
+                  .md-tile-content
+                    h3 {{model.file.name}}
+                    p Size:
+                      | {{model.file.size / 1024 / 1024 | number: 1}}MB
+                    p
+                      | Get a URL:
+                      md-button.md-fab.md-primary(aria-label='Add', ng-click='addFriend($index, $event)')
+                        ng-md-icon(icon='link')
+                        md-tooltip(md-direction="top") Get a shareable link
+                  //- md-list(ng-show="mode.file.targets.length")
+                  //-   | Shared with:
+                  //-   md-list-item.draggable(ng-repeat='friend in mode.file.targets', data-drag="true", jqyoui-draggable="{containment:'position'}", ng-model="model.file.targets")
+                  //-     img.md-avatar(ng-src="{{friend.picture}}")
+                  //-     .md-list-item-text
+                  //-       h5 {{friend.name}}
+        ui-view(ng-show="!interface.getFiles(interface.FILE_TYPES.VALID).length")
+          md-card
+            md-card-content(layout, layout-align="center center")
+              md-list
+                md-list-item
+                  h2 1. Drop a File in the page
+                md-list-item
+                  h2 2. Create a shearable URL
+                md-list-item
+                  h2 3. Share the link!
+    script(type="text/javascript", src="https://code.jquery.com/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js")
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js')
+    script(type='text/javascript', src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-messages.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js')
+    // Angular Material Javascript now available via Google CDN; version 0.11.2 used here
+    script(src='https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js')
+    script(src='//cdn.jsdelivr.net/angular-material-icons/0.4.0/angular-material-icons.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/SVG-Morpheus/0.1.8/svg-morpheus.js')
+    script(type='text/javascript', src='js/ngDroplet.min.js')
+    script(type='text/javascript', src='js/angular-dragdrop.min.js')
+    script(type='text/javascript', src='js/peer.js')
+    script(type='text/javascript', src='js/backupServers.js')
+    script(type='text/javascript', src='js/index.js')

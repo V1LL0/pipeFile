@@ -1,0 +1,11 @@
+doctype html
+html
+  title Download file
+  head
+    meta(name='viewport', content='initial-scale=1')
+  body(data-peer="#{peerId}", data-key="#{jsKey}", data-sender="#{senderId}")
+    p File to download
+    script(type="text/javascript", src="https://code.jquery.com/jquery-2.1.4.min.js")
+    script(type="text/javascript", src="//cdn.rawgit.com/peers/peerjs/master/dist/peer.min.js")
+    script(type='text/javascript', src='js/backupServers.js')
+    script(type="text/javascript", src="js/download.js")
